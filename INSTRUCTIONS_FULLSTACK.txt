@@ -1,0 +1,22 @@
+Copiez/extraire ce dossier A LA RACINE de votre repo musegan_IPSSI (au même niveau que Makefile, reports/, third_party/).
+
+Ensuite:
+
+1) Backend (FastAPI + SQLite)
+   - Dans Git Bash (à la racine du repo):
+     ./.venv/Scripts/python.exe -m pip install -r apps/api/requirements.txt
+     ./.venv/Scripts/python.exe -m uvicorn apps.api.main:app --reload --port 8000
+
+2) Frontend (React/Vite)
+   - Installer Node.js (si pas fait), puis:
+     cd apps/web
+     npm install
+     npm run dev
+
+3) Importer un run (après avoir généré vos samples via make pipeline/pipeline2):
+   - Ouvrir http://localhost:5173
+   - Bouton "Importer le dernier run" (il lit reports/metrics/scoring.json + reports/samples/best_of)
+
+Notes:
+- Le backend sert en statique le dossier reports/ (figures + midis).
+- Lecture MIDI dans le navigateur: bouton Play (synthé simple via Tone.js).

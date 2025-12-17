@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+third_party/musegan/.git/
+
+# generated
+data/*
+!data/.gitkeep
+exp/*
+!exp/.gitkeep
+reports/samples/*
+reports/figures/*
+reports/metrics/*
+!reports/samples/.gitkeep
+!reports/figures/.gitkeep
+!reports/metrics/.gitkeep
+apps/web/node_modules

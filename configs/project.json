@@ -1,0 +1,6 @@
+{
+  "python": ".venv/Scripts/python.exe",
+  "musegan_repo": "https://github.com/salu133445/musegan",
+  "inference_npy_expected": "third_party/musegan/exp/default/results/inference/arrays/fake_x/fake_x_0.npy",
+  "midi_outdir_default": "reports/samples/midi_batch"
+}
