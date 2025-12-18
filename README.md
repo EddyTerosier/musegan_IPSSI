@@ -2,7 +2,7 @@
 
 Projet de génération automatique de musique MIDI multi-pistes utilisant MuseGAN (GAN symbolique), avec interface web fullstack pour la gestion, l'écoute et l'analyse des compositions générées.
 
-## 🎵 Aperçu
+## Aperçu
 
 Ce projet permet de :
 - **Générer** des compositions MIDI 5 pistes (Drums, Piano, Guitar, Bass, Strings)
@@ -19,7 +19,7 @@ Ce projet permet de :
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prérequis
 
@@ -33,6 +33,11 @@ Ce projet permet de :
 # 1. Cloner le projet
 git clone <votre-repo>
 cd musegan_IPSSI
+
+# Telecharger l'archive ZIP en cliquant sur ce lien :
+[Lien archive](https://ucsdcloud-my.sharepoint.com/:u:/r/personal/h3dong_ucsd_edu/Documents/data/musegan/pretrained_models.tar.gz?csf=1&web=1&e=r0u74h)
+# Copier l'archive téléchargée dans le dossier third_party/musegan/exp/
+
 
 # 2. Construire les images Docker
 make -f Makefile.docker build
@@ -53,45 +58,13 @@ make -f Makefile.docker pipeline
 
 ### Première utilisation
 
-1. Dans l'interface web, cliquez sur **"Importer (pipeline)"** pour charger les MIDIs générés à l'étape 5
+1. Dans l'interface web, cliquez sur **"Importer (pipeline)"** pour charger les MIDIs générés
 2. Explorez les métriques, graphiques et écoutez les meilleurs samples
 3. Cliquez sur **"Générer + importer"** pour créer de nouveaux MIDIs directement depuis l'interface
 
 ---
 
-## 📁 Structure du Projet
-
-```
-musegan_IPSSI/
-├── apps/
-│   ├── api/              # Backend FastAPI
-│   │   ├── main.py       # Routes API
-│   │   ├── models.py     # Modèles SQLAlchemy
-│   │   └── runner.py     # Exécution du pipeline
-│   └── web/              # Frontend React
-│       ├── src/
-│       │   ├── app.jsx   # Interface principale
-│       │   └── midi_player.js  # Lecture MIDI (Tone.js)
-│       └── package.json
-├── tools/                # Scripts Python
-│   ├── npy_to_midi_batch.py    # Conversion numpy → MIDI
-│   ├── score_midis.py          # Calcul des scores musicaux
-│   └── make_report_figures.py  # Génération des graphiques
-├── reports/              # Outputs générés
-│   ├── samples/          # MIDIs générés
-│   ├── figures/          # Graphiques PNG
-│   └── metrics/          # JSON/CSV des scores
-├── third_party/
-│   └── musegan/          # Repo MuseGAN (cloné auto)
-├── docker-compose.yml    # Orchestration des services
-├── Dockerfile            # Image Python + TensorFlow
-├── Makefile.docker       # Commandes Docker simplifiées
-└── requirements.lock.txt # Dépendances Python
-```
-
----
-
-## 🎛️ Commandes Essentielles
+## Commandes Essentielles
 
 ### Pipeline de génération
 
@@ -166,7 +139,7 @@ Les 3 meilleurs MIDIs sont copiés dans `reports/samples/best_of/` avec préfixe
 
 ---
 
-## 🎨 Interface Web
+## Interface Web
 
 ### Fonctionnalités
 
@@ -189,7 +162,7 @@ Les 3 meilleurs MIDIs sont copiés dans `reports/samples/best_of/` avec préfixe
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Téléchargement des modèles échoue (quota Google Drive)
 
@@ -252,7 +225,7 @@ Ajustez les seuils dans `Makefile.docker` (target `midi` ou `midi-batch2`) :
 
 ---
 
-## ⚙️ Configuration Avancée
+## Configuration Avancée
 
 ### Modifier les paramètres de génération MuseGAN
 
@@ -293,11 +266,9 @@ programs = [0, 0, 25, 33, 48]  # General MIDI program numbers
 is_drums = [1, 0, 0, 0, 0]     # Piste 1 = drums
 ```
 
-Référence : [General MIDI instruments](https://www.midi.org/specifications-old/item/gm-level-1-sound-set)
-
 ---
 
-## 📚 Documentation Technique
+## Documentation Technique
 
 ### Flux de données
 
@@ -359,30 +330,8 @@ Beat resolution: 12 (steps par temps)
 Duration: ~9.6 secondes par sample
 ```
 
----
 
-## 🔄 Migration depuis Windows
-
-Si vous aviez l'ancienne version avec scripts bash Windows :
-
-| Ancien workflow | Nouveau workflow Docker |
-|----------------|-------------------------|
-| `make bootstrap` | `make -f Makefile.docker build` |
-| `make clone-musegan` | Automatique au premier `build` |
-| `make patch-musegan` | Intégré dans le Dockerfile |
-| `make download-models` | `make -f Makefile.docker setup-models` |
-| `make infer` | `make -f Makefile.docker infer` |
-| `make pipeline` | `make -f Makefile.docker pipeline` |
-
-**Avantages Docker** :
-- ✅ Fonctionne sur Linux/Mac/Windows sans Git Bash
-- ✅ Environnement isolé (pas de conflits de dépendances)
-- ✅ Reproductible sur n'importe quelle machine
-- ✅ Pas besoin d'installer Python/TensorFlow manuellement
-
----
-
-## 📝 Notes
+## Notes
 
 - Les modèles pré-entraînés (~100 MB) doivent être téléchargés une seule fois
 - La première inférence est lente (~2-3 min) à cause du chargement TensorFlow
@@ -391,28 +340,3 @@ Si vous aviez l'ancienne version avec scripts bash Windows :
 - Le projet peut tourner sans GPU (CPU suffit pour l'inférence)
 
 ---
-
-## 🤝 Contribution
-
-Pour améliorer le projet :
-1. Forkez le repo
-2. Créez une branche (`git checkout -b feature/amelioration`)
-3. Committez (`git commit -m "Ajout de X"`)
-4. Pushez (`git push origin feature/amelioration`)
-5. Ouvrez une Pull Request
-
----
-
-## 📄 Crédits
-
-- **MuseGAN** : [salu133445/musegan](https://github.com/salu133445/musegan)
-- **Paper** : Hao-Wen Dong et al., "MuseGAN: Multi-track Sequential Generative Adversarial Networks for Symbolic Music Generation and Accompaniment" (2018)
-
----
-
-## 📧 Support
-
-En cas de problème :
-1. Consultez la section **Troubleshooting**
-2. Vérifiez les logs : `make -f Makefile.docker logs`
-3. Ouvrez une issue GitHub avec les logs pertinents
