@@ -31,24 +31,23 @@ Ce projet permet de :
 
 ```bash
 # 1. Cloner le projet
-git clone <votre-repo>
+git clone https://github.com/EddyTerosier/musegan_IPSSI.git
 cd musegan_IPSSI
 
-# Telecharger l'archive ZIP en cliquant sur ce lien :
-[Lien archive](https://ucsdcloud-my.sharepoint.com/:u:/r/personal/h3dong_ucsd_edu/Documents/data/musegan/pretrained_models.tar.gz?csf=1&web=1&e=r0u74h)
+# 2. Télécharger l'archive ZIP
+# Ouvrez ce lien dans votre navigateur : https://ucsdcloud-my.sharepoint.com/:u:/r/personal/h3dong_ucsd_edu/Documents/data/musegan/pretrained_models.tar.gz?csf=1&web=1&e=r0u74h
 # Copier l'archive téléchargée dans le dossier third_party/musegan/exp/
 
-
-# 2. Construire les images Docker
+# 3. Construire les images Docker
 make -f Makefile.docker build
 
-# 3. Démarrer les services (backend + frontend)
+# 4. Démarrer les services (backend + frontend)
 make -f Makefile.docker up
 
-# 4. Dans un autre terminal : télécharger les modèles pré-entraînés
+# 5. Dans un autre terminal : télécharger les modèles pré-entraînés
 make -f Makefile.docker setup-models
 
-# 5. Générer vos premiers MIDIs
+# 6. Générer vos premiers MIDIs
 make -f Makefile.docker pipeline
 ```
 
