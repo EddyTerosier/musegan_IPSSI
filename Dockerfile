@@ -32,6 +32,11 @@ RUN chmod +x scripts/download_pretrained.sh
 
 RUN mkdir -p data exp reports/samples reports/figures reports/metrics third_party/musegan/exp
 
+# Copier le contenu de third_party/musegan/exp/ depuis le contexte
+# Si pretrained_models.tar.gz existe dans le repo, il sera copié ici
+# Sinon, le dossier sera juste vide et le script téléchargera l'archive
+COPY third_party/musegan/exp/ third_party/musegan/exp/
+
 COPY apps/api/requirements.txt /app/api_requirements.txt
 RUN pip install --no-cache-dir -r /app/api_requirements.txt
 
