@@ -35,7 +35,7 @@ git clone https://github.com/EddyTerosier/musegan_IPSSI.git
 cd musegan_IPSSI
 
 # 2. Télécharger l'archive ZIP
-# Ouvrez ce lien dans votre navigateur : https://ucsdcloud-my.sharepoint.com/:u:/r/personal/h3dong_ucsd_edu/Documents/data/musegan/pretrained_models.tar.gz?csf=1&web=1&e=r0u74h
+# Ouvrez ce lien dans votre navigateur : https://ucsdcloud-my.sharepoint.com/:u:/g/personal/h3dong_ucsd_edu/Ea2kDl2YokNIiZ_OXxzgclYBX0Tk-awE2kDlm2HO9ofqPg
 # Copier l'archive téléchargée dans le dossier third_party/musegan/exp/
 
 # 3. Construire les images Docker
