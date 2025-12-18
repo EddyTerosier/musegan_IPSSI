@@ -1,0 +1,72 @@
+.PHONY: help build up down logs shell setup-models infer midi score report pipeline clean
+
+help:
+	@echo "Commandes Docker:"
+	@echo "  make build        - Construire les images Docker"
+	@echo "  make up           - Démarrer les services (backend + frontend)"
+	@echo "  make down         - Arrêter les services"
+	@echo "  make logs         - Voir les logs"
+	@echo "  make shell        - Shell dans le conteneur backend"
+	@echo ""
+	@echo "Pipeline MuseGAN:"
+	@echo "  make setup-models - Télécharger et extraire les modèles pré-entraînés"
+	@echo "  make infer        - Lancer l'inférence MuseGAN"
+	@echo "  make midi         - Convertir en MIDI (10 samples)"
+	@echo "  make score        - Calculer les scores des MIDIs"
+	@echo "  make report       - Générer les graphiques"
+	@echo "  make pipeline     - Pipeline complet (infer + midi + score + report)"
+	@echo ""
+	@echo "  make clean        - Nettoyer les conteneurs et volumes"
+
+build:
+	docker-compose build
+
+up:
+	docker-compose up -d
+	@echo "[OK] Services démarrés:"
+	@echo "  - Backend:  http://localhost:8000"
+	@echo "  - Frontend: http://localhost:5173"
+
+down:
+	docker-compose down
+
+logs:
+	docker-compose logs -f
+
+shell:
+	docker-compose exec backend bash
+
+setup-models:
+	docker-compose exec backend bash /app/scripts/download_pretrained.sh
+
+infer:
+	docker-compose exec backend bash -c "cd /app/third_party/musegan && bash scripts/run_inference.sh ./exp/default/ 0"
+
+midi:
+	docker-compose exec backend python tools/npy_to_midi_batch.py \
+		--npy third_party/musegan/exp/default/results/inference/arrays/fake_x/fake_x_0.npy \
+		--outdir reports/samples/midi_batch \
+		--n 10 --thresh 0.6 --min_steps 2
+
+score:
+	docker-compose exec backend python tools/score_midis.py \
+		--in_dir reports/samples/midi_batch \
+		--out_csv reports/metrics/scoring.csv \
+		--out_json reports/metrics/scoring.json \
+		--top 3
+
+report:
+	docker-compose exec backend python tools/make_report_figures.py \
+		--scoring_json reports/metrics/scoring.json \
+		--midi_dir reports/samples/midi_batch \
+		--out_dir reports/figures \
+		--best_of_dir reports/samples/best_of \
+		--top 3
+
+pipeline: infer midi score report
+	@echo "[OK] Pipeline complet terminé"
+	@echo "[INFO] Ouvrez http://localhost:5173 pour voir les résultats"
+
+clean:
+	docker-compose down -v
+	rm -rf reports/samples/* reports/figures/* reports/metrics/*
