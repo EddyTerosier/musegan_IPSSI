@@ -1,17 +1,54 @@
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
 .venv/
-third_party/musegan/.git/
+venv/
 
-# generated
-data/*
-!data/.gitkeep
-exp/*
-!exp/.gitkeep
+# Reports générés
 reports/samples/*
 reports/figures/*
 reports/metrics/*
 !reports/samples/.gitkeep
 !reports/figures/.gitkeep
 !reports/metrics/.gitkeep
-apps/web/node_modules
+
+# Data
+data/*
+!data/.gitkeep
+exp/*
+!exp/.gitkeep
+
+# Third party (MuseGAN cloné)
+third_party/musegan/
+# EXCEPTION : on garde l'archive des modèles pré-entraînés
+!third_party/musegan/exp/
+!third_party/musegan/exp/pretrained_models.tar.gz
+
+# SQLite
+*.db
+*.db-journal
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Docker
+.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
