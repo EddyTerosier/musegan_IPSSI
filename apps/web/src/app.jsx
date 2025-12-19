@@ -74,18 +74,18 @@ export default function App() {
       const info = await playMidiFromUrl(url);
       setPlayInfo({ file: file.name, ...info });
     } catch (e) {
-      setError("Play MIDI échoué (navigateur): " + String(e));
+      setError("Lecture MIDI impossible (navigateur) : " + String(e));
     }
   }
 
   return (
     <div className="container">
       <div className="row" style={{ alignItems: "center", justifyContent: "space-between" }}>
-        <h1 className="h1">MuseGAN TP — Front + Back</h1>
+        <h1 className="h1">Créez de la musique avec l'IA</h1>
         <div className="row">
           <button className="btn secondary" onClick={() => refresh()} disabled={loading}>Rafraîchir</button>
-          <button className="btn secondary" onClick={() => importDefault()} disabled={loading}>Importer (pipeline)</button>
-          <button className="btn" onClick={() => generateAndImport()} disabled={loading}>Générer + importer</button>
+          <button className="btn secondary" onClick={() => importDefault()} disabled={loading}>Importer des résultats</button>
+          <button className="btn" onClick={() => generateAndImport()} disabled={loading}>Générer des musiques</button>
         </div>
       </div>
 
@@ -93,7 +93,7 @@ export default function App() {
 
       <div className="row">
         <div className="card" style={{ flex: "1 1 320px" }}>
-          <div className="h2">Runs</div>
+          <div className="h2">Sessions</div>
           <table className="table">
             <thead><tr><th>ID</th><th>Date</th><th>Nom</th></tr></thead>
             <tbody>
@@ -106,35 +106,35 @@ export default function App() {
                 </tr>
               ))}
               {!runs.length && (
-                <tr><td colSpan="3" className="small">Aucun run. Cliquez “Importer” ou “Générer + importer”.</td></tr>
+                <tr><td colSpan="3" className="small">Aucune session. Cliquez « Importer des résultats » ou « Générer des musiques ».</td></tr>
               )}
             </tbody>
           </table>
         </div>
 
         <div className="card" style={{ flex: "2 1 560px" }}>
-          <div className="h2">Détails</div>
-          {!selected && <div className="small">Sélectionnez un run.</div>}
+          <div className="h2">Détails de la session</div>
+          {!selected && <div className="small">Sélectionnez une session.</div>}
           {selected && (
             <>
               <div className="kpi" style={{ marginTop: 10 }}>
                 <div className="item">
-                  <div className="small">Samples</div>
+                  <div className="small">Extraits générés</div>
                   <div>{selected.summary?.stats?.n_samples ?? "-"}</div>
                 </div>
                 <div className="item">
-                  <div className="small">Avg notes/sec</div>
+                  <div className="small">Notes par seconde (moy.)</div>
                   <div>{selected.summary?.stats?.avg_notes_per_sec ?? "-"}</div>
                 </div>
                 <div className="item">
-                  <div className="small">Max score</div>
+                  <div className="small">Meilleur score</div>
                   <div>{selected.summary?.stats?.max_score ?? "-"}</div>
                 </div>
               </div>
 
               <div className="row" style={{ marginTop: 12 }}>
                 <div style={{ flex: "1 1 340px" }}>
-                  <div className="h2">Best-of (MIDI)</div>
+                  <div className="h2">Meilleures pistes (MIDI)</div>
                   <table className="table">
                     <thead><tr><th>Fichier</th><th>Actions</th></tr></thead>
                     <tbody>
@@ -143,30 +143,30 @@ export default function App() {
                           <td>{f.name}</td>
                           <td>
                             <div className="row">
-                              <button className="btn secondary" onClick={() => play(f)}>Play</button>
-                              <a className="btn" href={reportsUrl(f.rel_path)} download>Download</a>
+                              {/*<button className="btn secondary" onClick={() => play(f)}>Écouter</button>*/}
+                              <a className="btn" href={reportsUrl(f.rel_path)} download>Télécharger</a>
                             </div>
                           </td>
                         </tr>
                       ))}
                       {!bestFiles.length && (
-                        <tr><td colSpan="2" className="small">Aucun MIDI best_of trouvé.</td></tr>
+                        <tr><td colSpan="2" className="small">Aucun fichier MIDI trouvé.</td></tr>
                       )}
                     </tbody>
                   </table>
                   {playInfo && (
                     <div className="small" style={{ marginTop: 8 }}>
-                      Lecture: {playInfo.file} — notes={playInfo.notes}, tracks={playInfo.tracks}, duration≈{playInfo.duration.toFixed(2)}s
+                      Lecture : {playInfo.file} — {playInfo.tracks} pistes, {playInfo.notes} notes, durée ≈ {playInfo.duration.toFixed(2)}s
                     </div>
                   )}
                 </div>
 
                 <div style={{ flex: "1 1 340px" }}>
-                  <div className="h2">Figures</div>
+                  <div className="h2">Aperçus</div>
                   <div className="row">
-                    <img className="img" alt="hist notes/sec" src={reportsUrl(`${selected.figures_dir}/hist_notes_per_sec.png`)} />
-                    <img className="img" alt="hist total notes" src={reportsUrl(`${selected.figures_dir}/hist_total_notes.png`)} />
-                    <img className="img" alt="scatter score vs nps" src={reportsUrl(`${selected.figures_dir}/scatter_score_vs_nps.png`)} />
+                    <img className="img" alt="Histogramme notes/sec" src={reportsUrl(`${selected.figures_dir}/hist_notes_per_sec.png`)} />
+                    <img className="img" alt="Histogramme notes totales" src={reportsUrl(`${selected.figures_dir}/hist_total_notes.png`)} />
+                    <img className="img" alt="Dispersion score vs notes/sec" src={reportsUrl(`${selected.figures_dir}/scatter_score_vs_nps.png`)} />
                   </div>
                 </div>
               </div>
@@ -175,11 +175,11 @@ export default function App() {
         </div>
       </div>
 
-      <div className="card" style={{ marginTop: 12 }}>
-        <div className="small">
-          Backend: http://localhost:8000 — Static: /reports/… — Front: http://localhost:5173
-        </div>
-      </div>
+      {/*<div className="card" style={{ marginTop: 12 }}>*/}
+      {/*  /!*<div className="small">*!/*/}
+      {/*  /!*  Backend: http://localhost:8000 — Static: /reports/… — Front: http://localhost:5173*!/*/}
+      {/*  /!*</div>*!/*/}
+      {/*</div>*/}
     </div>
   );
 }
